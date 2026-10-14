@@ -1,3 +1,4 @@
+import tracemalloc
 def measure(name):
     print(f'Сценарий: {name}')
     print(f' Число элементов: 100000')
