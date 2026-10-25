@@ -273,3 +273,36 @@ student ivan
 ```
 
 ### Задание 4. Функции, параметры и области видимости
+
+
+
+
+```mermaid
+graph LR
+    %% Определение слоев областей видимости (Матрешка)
+    subgraph Built_in ["Встроенная область (Built-in)"]
+        PRINT[Built-in: print]
+        
+        subgraph Global ["Глобальная область (Global)"]
+            COURSE[Global: course]
+            
+            subgraph Enclosing ["Объемлющая область (Enclosing)"]
+                STATUS[Enclosing: course_status]
+                
+                subgraph Local ["Локальная область (Local: update_status)"]
+                    START((Старт поиска))
+                end
+            end
+        end
+    end
+
+    %% Пути поиска имен (Стрелки)
+    START -- "1. nonlocal" --> STATUS
+    
+    START -- "1. Нет в Local" --> STATUS
+    STATUS -- "2. Нет в Enclosing" --> COURSE
+    
+    START -. "1. Нет в Local" .-> STATUS
+    STATUS -. "2. Нет в Enclosing" .-> COURSE
+    COURSE -. "3. Нет в Global" .-> PRINT
+```
