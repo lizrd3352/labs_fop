@@ -297,7 +297,7 @@ graph LR
     end
 
     %% Пути поиска имен (Стрелки)
-    START -- "1. nonlocal" --> STATUS
+    START -- "status" --> STATUS
     
     START -- "1. Нет в Local" --> STATUS
     STATUS -- "2. Нет в Enclosing" --> COURSE
