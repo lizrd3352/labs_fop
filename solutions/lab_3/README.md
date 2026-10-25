@@ -279,16 +279,16 @@ student ivan
 
 ```mermaid
 graph LR
-    subgraph Built_in ["Встроенная область (Built-in)"]
+    subgraph Built_in ["Область Built-in"]
         PRINT[Built-in: print]
         
-        subgraph Global ["Глобальная область (Global)"]
+        subgraph Global ["Область Global"]
             COURSE[Global: course]
             
-            subgraph Enclosing ["Объемлющая область (Enclosing)"]
+            subgraph Enclosing ["Область Enclosing: university_course"]
                 STATUS[Enclosing: course_status]
                 
-                subgraph Local ["Локальная область (Local: update_status)"]
+                subgraph Local ["Область Local: update_status"]
                     START((Старт поиска))
                 end
             end
