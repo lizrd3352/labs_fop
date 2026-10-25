@@ -305,4 +305,8 @@ graph LR
     START -. "1. Нет в Local" .-> STATUS
     STATUS -. "2. Нет в Enclosing" .-> COURSE
     COURSE -. "3. Нет в Global" .-> PRINT
+    %% Стилизация стрелок
+    linkStyle 0 stroke:#aacc00,stroke-width:3px;
+    linkStyle 1,2 stroke:#00b4d8,stroke-width:2px;
+    linkStyle 3,4,5 stroke:#999999,stroke-width:2px,stroke-dasharray: 5 5;
 ```
