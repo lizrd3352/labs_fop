@@ -299,8 +299,8 @@ graph LR
     %% Пути поиска имен (Стрелки)
     START -- "status" --> STATUS
     
-    START -- "1. Нет в Local" --> STATUS
-    STATUS -- "2. Нет в Enclosing" --> COURSE
+    START -- "course" --> STATUS
+    STATUS -- "print()" --> COURSE
     
     START -. "1. Нет в Local" .-> STATUS
     STATUS -. "2. Нет в Enclosing" .-> COURSE
