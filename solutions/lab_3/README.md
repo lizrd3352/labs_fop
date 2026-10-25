@@ -279,7 +279,6 @@ student ivan
 
 ```mermaid
 graph LR
-    %% Определение слоев областей видимости (Матрешка)
     subgraph Built_in ["Встроенная область (Built-in)"]
         PRINT[Built-in: print]
         
@@ -296,7 +295,7 @@ graph LR
         end
     end
 
-    %% Пути поиска имен (Стрелки)
+    
     START -- "status" --> STATUS
     
     START -- "course" --> STATUS
@@ -305,7 +304,7 @@ graph LR
     START -. "print()" .-> STATUS
     STATUS -. "print()" .-> COURSE
     COURSE -. "print()" .-> PRINT
-    %% Стилизация стрелок
+    
     linkStyle 0 stroke:#aacc00,stroke-width:3px;
     linkStyle 1,2 stroke:#00b4d8,stroke-width:2px;
     linkStyle 3,4,5 stroke:#999999,stroke-width:2px,stroke-dasharray: 5 5;
