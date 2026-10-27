@@ -554,9 +554,9 @@ def format_report(students, group_data):
 
 ```mermaid
 graph TB
-    mean, minimum, maximum --> student_summary, classify
-    student_summary, classify --> group_summary, find_top_students
-    group_summary, find_top_students  --> format_report
+    (mean, minimum, maximum) --> (student_summary, classify)
+    (student_summary, classify) --> (group_summary, find_top_students)
+    (group_summary, find_top_students)  --> format_report
 ```
 
 - `mean`, `minimum`, `maximum`: самый низкий уровень. обрабатывают числа, ничего не зная про остальные данные
