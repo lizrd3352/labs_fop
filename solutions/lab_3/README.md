@@ -552,13 +552,6 @@ def format_report(students, group_data):
 
 *Декомпозиция программы:*
 
-```mermaid
-graph TB
-    (mean, minimum, maximum) --> (student_summary, classify)
-    (student_summary, classify) --> (group_summary, find_top_students)
-    (group_summary, find_top_students)  --> format_report
-```
-
 - `mean`, `minimum`, `maximum`: самый низкий уровень. обрабатывают числа, ничего не зная про остальные данные
 - `student_summary`, `classify`: промежуточный уровень. `student_summary` собирает профиль студента, делегируя математические вычисления на предыдущий уровень и запрашивая у `classify` текстовый вердикт
 - `group_summary`, `find_top_students`: высший вычислительный уровень. собирают весь класс целиком, работая с результатами `student_summary`. Для вычисления общего среднего и и поиск максимального балла вызывают базовые `mean` и `maximum`
