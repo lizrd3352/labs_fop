@@ -412,3 +412,45 @@ def add_result(value, results=None):
 
 **Практическое расширение**
 
+Функция `apply_to_results(operation, values)`:
+
+```python
+def apply_to_results(operation, values):
+    return [operation(val) for val in values]
+```
+
+Передача именованной и `lambda` функций:
+
+```python
+def double(x):
+    return x * 2
+
+s = [3, 4, 5, 2, 5, 4]
+d = apply_to_results(double, s)
+sl = apply_to_results(lambda x: x + 1, s)
+```
+
+Фабрика `make_threshold_checker(threshold)`:
+
+```python
+def make_threshold_checker(threshold):
+    def checker(value):
+        return value >= threshold
+    return checker
+```
+И проверка с разными порогами:
+
+```python
+excellent = make_threshold_checker(4.6)
+passed = make_threshold_checker(2.6)
+
+test_score = 4
+
+print(f"Результат {test_score} является отличным? -> {excellent(test_score)}") #выведет False
+print(f"Результат {test_score} сдал зачет? -> {passed(test_score)}") #выведет True
+```
+
+В замыкании сохраняется ссылка на переменную `threshold` из области видимости внешней функции `make_threshold_checker`
+
+### Задание 5. Анализатор учебных результатов
+
