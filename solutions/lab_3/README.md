@@ -454,3 +454,117 @@ print(f"Результат {test_score} сдал зачет? -> {passed(test_sco
 
 ### Задание 5. Анализатор учебных результатов
 
+Реализация функций:
+```python
+def mean(values):
+    return sum(values) / len(values)
+
+def minimum(values):
+    m = maximum(values)
+    for t in values:
+        if t < m: m = t
+    return m
+
+def maximum(values):
+    m = -10
+    for y in values:
+        if y > m: m = y
+    return m
+
+def classify(score):
+    if score >= 91: return 'Отлично'
+    elif score >= 75: return 'Хорошо'
+    elif score >= 60: return 'Удовлетворительно'
+    else: return 'Неудовлетворительно'
+
+def student_summary(name, results):
+    if not results:
+        return {
+            "name": name,
+            "min": 0,
+            "max": 0,
+            "avg": 0.0,
+            "category": "Нет оценок"
+        }
+    sr = mean(results)
+    return {
+        "name": name,
+        "min": minimum(results),
+        "max": maximum(results),
+        "avg": sr,
+        "category": classify(sr)
+    }
+
+def group_summary(students):
+    s = [student_summary(name, res) for name, res in students.items()]
+    if not s:
+        return {"group_avg": 0.0, "categories_count": {}}
+    total = sum(sm["avg"] for sm in s) / len(s)
+    cat_count = {}
+    for st in s:
+        cat = st["category"]
+        cat_count[cat] = cat_count.get(cat, 0) + 1
+    return {
+        "group_avg": round(total, 2),
+        "categories_count": cat_count
+    }
+
+
+def find_top_students(students):
+    if not students:
+        return None
+    ss = [student_summary(name, res) for name, res in students.items()]
+    max_avg = max(s["avg"] for s in ss)
+    top_students = [s["name"] for s in ss if s["avg"] == max_avg]
+    return top_students
+
+
+def format_report(students, group_data):
+    report = []
+    report.append('Итоговый отчет')
+    report.append('-' * 50)
+    report.append(f"Общий средний результат группы: {group_data['group_avg']}")
+
+    top = find_top_students(students)
+    report.append(f'Лидер(ы) группы: {', '.join(top)}')
+
+    report.append('\nРаспределение по категориям:')
+    for cat, count in group_data['categories_count'].items():
+        report.append(f'  - {cat}: {count} чел.')
+    report.append('-' * 50)
+    return '\n'.join(report)
+```
+
+Успешно проверили 6 сценариев (обычный набор данных, один студент, несколько лидеров, пустая группа, студент без результатов, граничные значения категорий) с помощью `assert`
+
+*Контракты публичных функций:*
+
+| Функция | Допустимые входные данные | Результат | Особые случаи |
+| ----------- | ----------- | ----------- | ----------- |
+| mean    | values - list или tuple из int или float  | float  | при передаче пустого values выведет 0.0 |
+| minimum    | values - list или tuple из int или float  | int или float  | инициализируется первым эл-ом списка, что исключает ошибки в работе с отрицательными числами |
+| maximum    | values - list или tuple из int или float  | int или float  | при передаче пустого values выведет 0 |
+| classify    | score - int или float, от 0 до бесконечности | str, одно из четырех значений  | если передано не число, выведется ошибка TypeError  |
+| student_summary    | name - str, results - list из int или float | dict с определенной структурой ключей  | если results пуст, выведет 0 |
+| group_summary    | students - dict  | dict с двумя ключами  | при передаче пустого students выведет 0.0 в avg |
+| find_top_students    | students - dict  | list из str  | если группа пустая, вернет None |
+| format_report    | students - dict, group_data - dict  | форматированная строчка  |  |
+
+*Декомпозиция программы:*
+
+```mermaid
+graph TB
+    mean, minimum, maximum --> student_summary, classify
+    student_summary, classify --> group_summary, find_top_students
+    group_summary, find_top_students  --> format_report
+```
+
+- `mean`, `minimum`, `maximum`: самый низкий уровень. обрабатывают числа, ничего не зная про остальные данные
+- `student_summary`, `classify`: промежуточный уровень. `student_summary` собирает профиль студента, делегируя математические вычисления на предыдущий уровень и запрашивая у `classify` текстовый вердикт
+- `group_summary`, `find_top_students`: высший вычислительный уровень. собирают весь класс целиком, работая с результатами `student_summary`. Для вычисления общего среднего и и поиск максимального балла вызывают базовые `mean` и `maximum`
+- `format_report`: занимается исключительно генерацией строки вывода
+
+*Сложность построения:*
+
+- Временная сложность O(N * M), где N - кол-во студентов в группе, M - максимальное кол-во оценок у одного студента (при запуске `group_summary` мы делаем один проход по словарю студентов длиной N, для каждого студента вызывается `student_summary`, внутри нее последовательно работают функции `mean`, `minimum` и `maximum`. Каждая из этих трех функций делает ровно один полный обход списка оценок студента)
+- Пространственная сложность O(N) (внутри функций `group_summary` и `find_top_students` создаются новые списки, размер которых прямо пропорционален количеству студентов N. Словарь `cat_count` занимает константную память O(1), так как количество категорий ограничено четырьмя-пятью фиксированными строками)
