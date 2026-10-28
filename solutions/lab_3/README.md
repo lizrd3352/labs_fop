@@ -26,7 +26,7 @@
 Определение уровня результата:
 
 ```
-    if 0 <= score <= 59:
+    if 0 <= score <= 59 or (60 <= score <= 74 and absences > 3):
         r = 'недостаточный'
     elif (75 <= score <= 89 and absences > 3) or 60 <= score <= 74:
         r = 'удовлетворительный'
