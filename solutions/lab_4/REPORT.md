@@ -98,3 +98,18 @@ class StepRange:
         return StepRangeIterator(self.start, self.stop, self.step)
 ```
 
+```mermaid
+classDiagram
+    class StepRange {
+        +int start
+        +int stop
+        +int step
+        +int current
+        +__init__(start, stop, step)
+        +__iter__() StepRange
+        +__next__() int
+        +__len__() int
+        +__contains__(value) bool
+        +__repr__() str
+    }
+```
