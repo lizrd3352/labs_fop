@@ -99,17 +99,27 @@ class StepRange:
 ```
 
 ```mermaid
-classDiagram
-    class StepRange {
-        +int start
-        +int stop
-        +int step
-        +int current
-        +__init__(start, stop, step)
-        +__iter__() StepRange
-        +__next__() int
-        +__len__() int
-        +__contains__(value) bool
-        +__repr__() str
-    }
+graph LR
+    subgraph Инициализация
+        it1 = 0
+        it2 = 0
+    end
+    subgraph next(it1)
+        obj1(2)
+        obj2(0)
+    end
+    subgraph next(it1)
+        obj3(4)
+        obj4(0)
+    end
+    subgraph next(it2)
+        obj5(4)
+        obj6(2)
+    end
+    subgraph next(it1)
+        obj7(6)
+        obj8(2)
+    end
+    it1 --> obj1 --> obj3 --> obj5 --> obj7
+    it2 --> obj2 --> obj4 --> obj6 --> obj8
 ```
