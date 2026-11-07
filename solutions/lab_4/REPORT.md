@@ -324,8 +324,7 @@ def batch(iterable, size: int) -> object:
 
 ```mermaid
 classDiagram
-    class PipelineUtility {
-        <<Utility>>
+    class Pipeline {
         +read_measurements(lines) Generator
         +filter_range(values, minimum, maximum) Generator
         +moving_average(values, window_size) Generator
