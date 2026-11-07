@@ -20,25 +20,26 @@ def consume(iterable) -> list:
     return result
 
 
-print("--Проверка функции--")
-print("Список:", consume([1, 2, 3]))
-print("Кортеж:", consume((1, 2, 3)))
-print("Строка:", consume("Hello"))
-print("Объект range:", consume(range(5)))
-llist = [100, 200, 300, 400]
-part = iter(llist)
-next(part)
-next(part)
-print("Частично использованный итератор (после 2 вызовов next):", consume(part))
+if __name__ == "__main__":
+    print("--Проверка функции--")
+    print("Список:", consume([1, 2, 3]))
+    print("Кортеж:", consume((1, 2, 3)))
+    print("Строка:", consume("Hello"))
+    print("Объект range:", consume(range(5)))
+    llist = [100, 200, 300, 400]
+    part = iter(llist)
+    next(part)
+    next(part)
+    print("Частично использованный итератор (после 2 вызовов next):", consume(part))
 
-print("\n--Сравнение повторного обхода--")
-p_list = ['A', 'B', 'C']
-print("Список - обход 1:", consume(p_list))
-print("Список - обход 2:", consume(p_list))
+    print("\n--Сравнение повторного обхода--")
+    p_list = ['A', 'B', 'C']
+    print("Список - обход 1:", consume(p_list))
+    print("Список - обход 2:", consume(p_list))
 
-p_iterator = iter(p_list)
-print("Итератор - обход 1:", consume(p_iterator))
-print("Итератор - обход 2:", consume(p_iterator))
+    p_iterator = iter(p_list)
+    print("Итератор - обход 1:", consume(p_iterator))
+    print("Итератор - обход 2:", consume(p_iterator))
 
 def my_enumerate(iterable, start=0):
     result = []
@@ -100,14 +101,15 @@ class StepRange:
 
 
 
-test_list = [10, 20, 30]
-test_str = "ABC"
-test_step_range = StepRange(1, 10, 3)
+if __name__ == "__main__":
+    test_list = [10, 20, 30]
+    test_str = "ABC"
+    test_step_range = StepRange(1, 10, 3)
 
-print("--my_enumerate--")
-print("список:", my_enumerate(test_list, start=1))
-print("StepRange:", my_enumerate(test_step_range))
+    print("--my_enumerate--")
+    print("список:", my_enumerate(test_list, start=1))
+    print("StepRange:", my_enumerate(test_step_range))
 
-print("\n--my_zip--")
-print("строка и список (одинаковая длина):", my_zip(test_str, test_list))
-print("StepRange и строка (StepRange длиннее строки):", my_zip(test_step_range, "Hi"))
+    print("\n--my_zip--")
+    print("строка и список (одинаковая длина):", my_zip(test_str, test_list))
+    print("StepRange и строка (StepRange длиннее строки):", my_zip(test_step_range, "Hi"))
