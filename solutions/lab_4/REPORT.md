@@ -104,19 +104,19 @@ graph LR
         it1
         it2
     end
-    subgraph next(1)
+    subgraph (1)
         obj1(2)
         obj2(0)
     end
-    subgraph next(1)
+    subgraph (1)
         obj3(4)
         obj4(0)
     end
-    subgraph next(2)
+    subgraph (2)
         obj5(4)
         obj6(2)
     end
-    subgraph next(1)
+    subgraph (1)
         obj7(6)
         obj8(2)
     end
