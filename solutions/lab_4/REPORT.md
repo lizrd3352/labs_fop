@@ -98,28 +98,41 @@ class StepRange:
         return StepRangeIterator(self.start, self.stop, self.step)
 ```
 
-```mermaid
-graph LR
-    subgraph Инициализация
-        it1
-        it2
-    end
-    subgraph (1)
-        obj1(2)
-        obj2(0)
-    end
-    subgraph (1)
-        obj3(4)
-        obj4(0)
-    end
-    subgraph (2)
-        obj5(4)
-        obj6(2)
-    end
-    subgraph (1)
-        obj7(6)
-        obj8(2)
-    end
-    it1 --> obj1 --> obj3 --> obj5 --> obj7
-    it2 --> obj2 --> obj4 --> obj6 --> obj8
+Состояние итераторов после каждого шага:
+| Шаг/Действие | it1 | it2 |
+| ----------- | ----------- |----------- |
+| next(it1)   | 2   |0   |
+| next(it1)    | 4   |0   |
+| next(it2)   | 4   |2   |
+| next(it1)   | 6   |2   |
+
+**Практическое расширение:**
+
+```python
+    def __len__(self):
+        if self.step > 0 and self.start >= self.stop:
+            return 0
+        if self.step < 0 and self.start <= self.stop:
+            return 0
+        return (self.stop - self.start - 1) // self.step + 1
+
+    def __contains__(self, value):
+        if self.step > 0 and (value < self.start or value >= self.stop):
+            return False
+        if self.step < 0 and (value > self.start or value <= self.stop):
+            return False
+        return (value - self.start) % self.step == 0
+
+    def __repr__(self):
+        return f"StepRange({self.start}, {self.stop}, {self.step})"
 ```
+
+При проверке через `__contains__()` (сложность О(1) выполняется всего несколько операций: проверяет границы и делится ли разница на шаг без остатка, а при проверке обходом (сложность О(N)) большого диапазона будет выполнятся несколько тысяч (а то и миллионов) операций.
+
+*Вопросы:*
+
+1. Состояние обхода лучше хранить в отдельном объекте, чтобы разделить неизменяемую структуру данных и процесс её обхода. Создание отдельного объекта-итератора при каждом вызове iter() позволяет запускать несколько независимых проходов по одному диапазону одновременно
+2. Сломается возможность повторного обхода диапазона и логика вложенных циклов
+3. `StepRange` требует константный объем памяти — \(O(1)\), независимо от общего числа элементов в последовательности поскольку класс  хранит всего три целых числа — start, stop и step
+
+## Задание 3. Генераторы и ленивый конвейер
