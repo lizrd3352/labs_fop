@@ -101,8 +101,8 @@ class StepRange:
 ```mermaid
 graph LR
     subgraph Инициализация
-        it1 = 0
-        it2 = 0
+        it1
+        it2
     end
     subgraph next(it1)
         obj1(2)
