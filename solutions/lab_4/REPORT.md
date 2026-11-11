@@ -159,7 +159,7 @@ class StepRange:
 **Практическое расширение:**
 
 ```python
-        def __len__(self) -> int:
+    def __len__(self) -> int:
         if self.step > 0 and self.start >= self.stop:
             return 0
         if self.step < 0 and self.start <= self.stop:
